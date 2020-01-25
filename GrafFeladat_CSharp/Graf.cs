@@ -64,6 +64,114 @@ namespace GrafFeladat_CSharp
             elek.Add(new El(cs2, cs1));
         }
 
+        public void szelessegiBejaras(int kezdop)
+        {
+            List<int> bejartLista = new List<int>();
+            List<int> kovetkezokLista= new List<int>();
+
+            kovetkezokLista.Add(kezdop);
+            bejartLista.Add(kezdop);
+
+            while (kovetkezokLista.Count!=0)
+            {
+                int i = kovetkezokLista[0];
+                kovetkezokLista.RemoveAt(0);
+                Console.Write(this.csucsok[i] +";");
+                foreach (var el in this.elek)
+                {
+                    if (el.Csucs1 == i && !bejartLista.Contains(el.Csucs2))
+                    {
+                        kovetkezokLista.Add(el.Csucs2);
+                        bejartLista.Add(el.Csucs2);
+                    }
+                }
+            }
+        }
+
+        public void melysegiBejaras(int kezdop)
+        {
+            List<int> bejartLista = new List<int>();
+            List<int> kovetkezokLista = new List<int>();
+
+            kovetkezokLista.Add(kezdop);
+            bejartLista.Add(kezdop);
+
+            while (kovetkezokLista.Count!=0)
+            {
+                int i = kovetkezokLista[0];
+                kovetkezokLista.RemoveAt(0);
+                Console.Write(this.csucsok[i]+ ";");
+                foreach (var el in this.elek)
+                {
+                    if (el.Csucs1 == i && !bejartLista.Contains(el.Csucs2))
+                    {
+                        kovetkezokLista.Add(el.Csucs2);
+                        bejartLista.Add(el.Csucs2);
+                    }
+                }
+            }
+        }
+
+        public bool osszefuggo()
+        {
+            bool osszefuggoE = false;
+
+            List<int> bejartLista = new List<int>();
+            List<int> kovetkezokLista = new List<int>();
+
+            kovetkezokLista.Add(0);
+            bejartLista.Add(0);
+
+            while (kovetkezokLista.Count!=0)
+            {
+                int k = kovetkezokLista[0];
+                kovetkezokLista.RemoveAt(0);
+                foreach (var el in this.elek)
+                {
+                    if (el.Csucs1 == k && !bejartLista.Contains(el.Csucs2))
+                    {
+                        kovetkezokLista.Add(el.Csucs2);
+                        bejartLista.Add(el.Csucs2);
+                    }
+                }
+            }
+            if (bejartLista.Count == this.csucsokSzama)
+            {
+                osszefuggoE=true;
+            }
+            return osszefuggoE;
+        }
+
+        public Graf feszitofa()
+        {
+            Graf ffa = new Graf(this.csucsokSzama);
+
+            List<int> bejartLista = new List<int>();
+            List<int> kovetkezokLista = new List<int>();
+
+            kovetkezokLista.Add(0);
+            bejartLista.Add(0);
+
+            while (kovetkezokLista.Count!= 0)
+            {
+                int i = kovetkezokLista[0];
+                kovetkezokLista.RemoveAt(0);
+                foreach (var el in this.elek)
+                {
+                    if (el.Csucs1 == i)
+                    {
+                        if (!(bejartLista.Contains(el.Csucs2)))
+                        {
+                            bejartLista.Add(el.Csucs2);
+                            kovetkezokLista.Add(el.Csucs1);
+                            ffa.Hozzaad(el.Csucs1, el.Csucs2);
+                        }
+                    }
+                }
+            }
+            return ffa;
+        }
+
         public override string ToString()
         {
             string str = "Csucsok:\n";
